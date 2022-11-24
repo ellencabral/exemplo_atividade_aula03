@@ -6,8 +6,17 @@ dbConnect()
     
     const refDB = fb.ref(db,'produtos');
 
-    fb.onChildAdded(refDB,(snapshot) => {
-        console.log(snapshot.val())
-    })
+    fb.onChildChanged(refDB,(snapshot)=>{ //()=>{}
+        if(snapshot.exists()){
+            if(snapshot.key == '-MwSzyJMlNDToTGtPuhc'){
+                fb.off(refDB,'child_changed')
+                console.log("Callback removido!")
+            }
+            console.log(snapshot.val())
+        }else{
+            console.log("Nó não encontrado")
+        }
+        
+    });
     
 }).catch(err=>console.log(err))
